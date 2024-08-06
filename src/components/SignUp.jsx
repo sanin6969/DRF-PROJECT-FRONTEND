@@ -41,8 +41,8 @@ function SignUp() {
                                     required
                                 />
                             </div>
-                            <div className="flex space-x-4">
-                                <div className="flex-1">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div className="col-span-1">
                                     <input
                                         type="password"
                                         name="password1"
@@ -52,7 +52,7 @@ function SignUp() {
                                         required
                                     />
                                 </div>
-                                <div className="flex-1">
+                                <div className="col-span-1">
                                     <input
                                         type="password"
                                         name="password2"
@@ -62,10 +62,20 @@ function SignUp() {
                                         required
                                     />
                                 </div>
+                                <div className="col-span-1">
+                                    <input
+                                        type="file"
+                                        name="profilepicture"
+                                        id="profilepicture"
+                                        className="bg-gray-50 bg-opacity-70 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-slate-900 dark:bg-opacity-35 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        required
+                                    />
+                                </div>
                             </div>
 
+
                             <div className="flex items-center justify-between">
-                            <p className="font-semibold text-black">Already a user
+                                <p className="font-semibold text-black">Already a user
                                     <NavLink to="/signin">
                                         <a href="" className="hover:text-gray-400"> Sign In?</a>
                                     </NavLink>
@@ -88,7 +98,7 @@ function SignUp() {
                                         </label>
                                     </div>
                                 </div>
-                                
+
                             </div>
                             <div className="flex justify-center mt-4">
                                 <button
