@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { NavLink, useNavigate } from "react-router-dom";
 function Signin() {
     return (
         <>
@@ -9,12 +9,16 @@ function Signin() {
                     <div className="w-full max-w-sm bg-white bg-opacity-50 backdrop-blur-lg rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:bg-opacity-50 dark:border-gray-700">
                         <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                             <div className="flex justify-center items-center space-x-4">
-                                <h1 className="text-xl font-bold text-gray-950 md:text-2xl">
+                                <NavLink to="/signin">
+                                <h1 className="text-xl font-bold text-gray-950 md:text-2xl bg-gray-400 rounded-md p-2">
                                     Sign In
                                 </h1>
+                                </NavLink>
+                                <NavLink to="/signup">
                                 <h1 className="text-3xl font-bold text-gray-400 md:text-2xl">
                                     Sign Up
                                 </h1>
+                                </NavLink>
                             </div>
 
                             <form className="space-y-4 md:space-y-6" action="#">
@@ -40,19 +44,20 @@ function Signin() {
                                     />
                                 </div>
                                 <div className="flex items-center justify-between">
-
-                                    <a
-                                        href="#"
-                                        className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">
-                                        Forgot password?
-                                    </a>
+                                    <p className="font-semibold text-black">Not a user
+                                    <NavLink to="/signup">
+                                        <a href="" className="hover:text-gray-500"> Sign Up?</a>
+                                    </NavLink>
+                                </p>
                                 </div>
                                 <div className="flex justify-center mt-4">
+                                    <NavLink to="/admin">
                                     <button
                                         type="submit"
                                         className="w-full bg-gray-500 bg-opacity-70 text-gray-400 hover:bg-gray-900 hover:text-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-gray-700 dark:hover:bg-gray-600">
                                         Sign In
                                     </button>
+                                    </NavLink>
                                 </div>
                             </form>
                         </div>

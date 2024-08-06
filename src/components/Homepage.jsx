@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Homepage() {
+function HomepageView() {
     return (
         <>
         <div className="  w-full text-center">
@@ -68,4 +68,4 @@ function Homepage() {
     );
 }
 
-export default Homepage;
+export default HomepageView;

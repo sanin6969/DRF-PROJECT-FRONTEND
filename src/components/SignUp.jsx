@@ -1,5 +1,5 @@
 import React from "react";
-
+import { NavLink, useNavigate } from "react-router-dom";
 function SignUp() {
     return (
         <>
@@ -7,12 +7,17 @@ function SignUp() {
                 <div className="w-full max-w-sm bg-white bg-opacity-50 backdrop-blur-lg rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:bg-opacity-50 dark:border-gray-700">
                     <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                         <div className="flex justify-center items-center space-x-4">
-                            <h1 className="text-3xl font-bold text-gray-900 md:text-2xl dark:text-slate-950">
-                                <span className="text-gray-950">Sign Up</span>
-                            </h1>
-                            <h1 className="text-3xl font-bold text-gray-600 md:text-2xl dark:text-gray-400">
-                                Sign In
-                            </h1>
+
+                            <NavLink to="/signup">
+                                <h1 className="text-3xl font-bold text-gray-900 md:text-2xl dark:text-slate-950 bg-gray-400 p-2 rounded-md">
+                                    <span className="text-gray-950">Sign Up</span>
+                                </h1>
+                            </NavLink>
+                            <NavLink to="/signin">
+                                <h1 className="text-3xl font-bold text-gray-600 md:text-2xl dark:text-gray-400">
+                                    Sign In
+                                </h1>
+                            </NavLink>
                         </div>
 
                         <form className="space-y-4 md:space-y-6" action="#">
@@ -60,17 +65,22 @@ function SignUp() {
                             </div>
 
                             <div className="flex items-center justify-between">
+                            <p className="font-semibold text-black">Already a user
+                                    <NavLink to="/signin">
+                                        <a href="" className="hover:text-gray-400"> Sign In?</a>
+                                    </NavLink>
+                                </p>
                                 <div className="flex items-start">
                                     <div className="flex items-center h-5">
                                         <input
-                                            id="remember"
-                                            aria-describedby="remember"
+                                            id="doctor"
+                                            aria-describedby="doctor"
                                             type="checkbox"
                                             className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
                                             required
                                         />
                                     </div>
-                                    <div className="ml-3 text-sm">
+                                    <div className="ml-3  mr-2 text-sm">
                                         <label
                                             htmlFor="remember"
                                             className="text-gray-500 dark:text-gray-300">
@@ -78,6 +88,7 @@ function SignUp() {
                                         </label>
                                     </div>
                                 </div>
+                                
                             </div>
                             <div className="flex justify-center mt-4">
                                 <button
