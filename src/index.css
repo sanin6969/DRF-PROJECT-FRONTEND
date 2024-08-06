@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body{
+  @apply bg-cover bg-center h-screen;
+  background-image: url('images/hospital.jpg');
+}
+@layer components {
+  .btn-primary {
+      @apply py-1.5 px-3 text-center bg-blue-700 rounded-md text-white;
+  }
+}
+/* body {
+  @apply bg-slate-100;
+} */
