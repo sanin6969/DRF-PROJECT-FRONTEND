@@ -1,6 +1,9 @@
 import React from 'react'
+import { useContext } from 'react';
 import { NavLink, useNavigate } from "react-router-dom";
+import AuthContext from '../context/AuthContext';
 function Signin() {
+    let{LoginUser}=useContext(AuthContext)
     return (
         <>
 
@@ -21,7 +24,7 @@ function Signin() {
                                 </NavLink>
                             </div>
 
-                            <form className="space-y-4 md:space-y-6" action="#">
+                            <form className="space-y-4 md:space-y-6" onSubmit={LoginUser} >
                                 <div>
                                     <input
                                         type="email"
@@ -51,13 +54,13 @@ function Signin() {
                                 </p>
                                 </div>
                                 <div className="flex justify-center mt-4">
-                                    <NavLink to="/admin">
+                                    {/* <NavLink to="/admin"> */}
                                     <button
                                         type="submit"
                                         className="w-full bg-gray-500 bg-opacity-70 text-gray-400 hover:bg-gray-900 hover:text-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-gray-700 dark:hover:bg-gray-600">
                                         Sign In
                                     </button>
-                                    </NavLink>
+                                    {/* </NavLink> */}
                                 </div>
                             </form>
                         </div>

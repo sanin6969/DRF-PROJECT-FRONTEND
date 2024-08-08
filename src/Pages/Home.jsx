@@ -1,13 +1,15 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { NavLink, useNavigate } from "react-router-dom";
+import AuthContext from '../context/AuthContext';
 function Home() {
+    let {user}=useContext(AuthContext)
     return (
         <>
             <div className="flex flex-wrap justify-center h-auto bg-zinc-700 m-4 rounded-2xl bg-opacity-65 backdrop-blur-sm shadow">
                 <div className="w-full text-center mb-4">
                     <h1 className="text-xl font-bold text-gray-800 md:text-6xl">DOCTORS HUB</h1>
                 </div>
-                <div className="w-full flex justify-center items-center space-x-4 mb-3">
+                {user?null:<div className="w-full flex justify-center items-center space-x-4 mb-3">
                     <NavLink to="signin">
                     <button className="text-3xl m-2 font-bold text-gray-950 md:text-md lg:text-md p-3 rounded-lg hover:text-gray-400 ">
                         Sign In
@@ -18,7 +20,8 @@ function Home() {
                         Sign Up
                     </button>
                     </NavLink>
-                </div>
+                </div>}
+                
 
                 <div className="relative flex bg-clip-border rounded-xl bg-gray-950  bg-opacity-65 text-gray-300 shadow-md w-full max-w-5xl flex-row mb-3">
                     <div className="relative w-2/5 m-0 overflow-hidden  bg-white rounded-r-none bg-clip-border rounded-xl shrink-0">

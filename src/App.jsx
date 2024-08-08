@@ -6,20 +6,21 @@ import HomepageView from "./Pages/Homepage"
 import Profile from "./components/Profile"
 import Adminpage from "./Pages/adminpage"
 import Home from "./Pages/Home"
-import PrivateRoute from './utils/Privateroute'
+import { AuthProvider } from './context/AuthContext'
 export default function App() {
   return (
     <>
+    <AuthProvider>
     <Navbar/>
-    
     <Routes>
-      <PrivateRoute path='/' element={<Home />} />
+      <Route path='/' element={<Home />} />
       <Route path='/admin' element={<Adminpage />} />
       <Route path='/Homepage' element={<HomepageView />} />
       <Route path='/profile' element={<Profile />} />
       <Route path='/signup' element={<SignUp />} />
       <Route path='/signin' element={<Signin />} />
      </Routes>
+    </AuthProvider>
     </>
   )
 }

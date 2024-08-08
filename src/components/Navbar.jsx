@@ -1,6 +1,8 @@
 import { Disclosure, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { NavLink } from 'react-router-dom'
 import { ToastContainer, toast } from "react-toastify";
+import AuthContext from '../context/AuthContext';
+import { useContext } from 'react';
 // const navigation = [
 //     { name: 'Welcome User', href: '#', current: false },
 
@@ -11,6 +13,8 @@ function classNames(...classes) {
 }
 
 export default function Navbar() {
+    let {user}=useContext(AuthContext)
+    let {SignOut}=useContext(AuthContext)
     return (
         <Disclosure as="nav" className="bg-gray-800">
           <ToastContainer />
@@ -35,8 +39,8 @@ export default function Navbar() {
                     <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                         <Menu as="div" className="relative ml-3">
                             <div className="flex items-center space-x-3">
-                                <span className="text-white text-sm font-medium">User Name</span>
-                                <MenuButton className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none">
+                                <span className="text-white text-sm font-medium">{user? user.username: 'Guest'}</span>
+                                {user? <MenuButton className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none">
                                     <span className="absolute -inset-1.5" />
                                     <span className="sr-only">Open user menu</span>
                                     <img
@@ -44,7 +48,8 @@ export default function Navbar() {
                                         src="https://img.freepik.com/free-photo/annoyed-young-female-doctor-medical-robe-with-stethoscope-puts-hand-shoulder-looks-camera-isolated-white-background-with-copy-space_141793-34238.jpg?t=st=1722674661~exp=1722678261~hmac=0fd62b66f270cb3b0dff5dbd409a646edbe96c3a04045f7d2e15b90b6aa632b8&w=740"
                                         className="h-8 w-8 rounded-full"
                                     />
-                                </MenuButton>
+                                </MenuButton>:null}
+                                
                             </div>
 
                             <MenuItems
@@ -53,15 +58,15 @@ export default function Navbar() {
                             >
                                 <MenuItem>
                                 <NavLink to="/profile">
-                                    <a href="#" className="block px-4 py-2 text-sm text-gray-200 data-[focus]:bg-gray-600">
+                                    <button href="#" className="block px-4 py-2 text-sm text-gray-200 data-[focus]:bg-gray-600">
                                         Your Profile
-                                    </a>
+                                    </button>
                                 </NavLink>
                                 </MenuItem>
                                 <MenuItem>
-                                    <a href="#" className="block px-4 py-2 text-sm text-gray-200 data-[focus]:bg-gray-600">
+                                    <button onClick={SignOut} className="block px-4 py-2 text-sm text-gray-200 data-[focus]:bg-gray-600">
                                         Sign out
-                                    </a>
+                                    </button>
                                 </MenuItem>
                             </MenuItems>
                         </Menu>
