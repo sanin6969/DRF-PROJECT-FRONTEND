@@ -13,7 +13,6 @@ export const AuthProvider = ({ children }) => {
     let [user, setUser] = useState(() => localStorage.getItem('authTokens') ? jwtDecode(localStorage.getItem('authTokens')) : null)
     let [loading,setLoading]=useState(true)
     const navigate = useNavigate()
-
     let LoginUser = async (e) => {
         e.preventDefault()
         console.log('form submitted');
@@ -37,12 +36,16 @@ export const AuthProvider = ({ children }) => {
         if (response.status === 200) {
             toast.success('Logged in successfully')
             setAuthTokens(data)
+            console.log('authtokens',authTokens);
+            
             // console.log('tokens', authTokens);
-            setUser(jwtDecode(data.access))
+            const decodedUser = jwtDecode(data.access);
+            setUser(decodedUser);
             // console.log('decoded data:', jwtDecode(data.access));
-            // console.log('access code', user);
+            console.log('user', user);
             localStorage.setItem('authTokens', JSON.stringify(data))
-            navigate('/Homepage')
+            // navigate('/admin')
+            decodedUser.is_admin ? navigate('/admin') : navigate('/');
 
         } else {
 
@@ -86,7 +89,7 @@ export const AuthProvider = ({ children }) => {
 
     // updating refresh token  in 4 minutes
     useEffect(()=>{
-        console.log('useeffect worked');
+        // console.log('useeffect worked');
         
         let interval =setInterval(() => {
             if(authTokens){
@@ -100,7 +103,8 @@ export const AuthProvider = ({ children }) => {
     let contextData = {
         SignOut: SignOut,
         user: user,
-        LoginUser: LoginUser
+        LoginUser: LoginUser,
+        authTokens:authTokens
     }
 
     return (

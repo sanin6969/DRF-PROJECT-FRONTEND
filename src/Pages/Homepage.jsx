@@ -21,45 +21,7 @@ function HomepageView() {
                             </div>
                         </div>
                     </div>
-                    <div className="relative group w-full h-80 overflow-hidden bg-black m-auto mt-4">
-                        <img className="object-cover w-full h-full transform duration-700 backdrop-opacity-100"
-                            src='https://img.freepik.com/free-photo/woman-doctor-wearing-lab-coat-with-stethoscope-isolated_1303-29791.jpg' />
-                        <div className="absolute w-full h-full shadow-2xl opacity-20 transform duration-500 inset-y-full group-hover:-inset-y-0"></div>
-                        <div className="absolute bg-gradient-to-t from-black w-full h-full transform duration-500 inset-y-3/4 group-hover:-inset-y-0">
-                            <div className="absolute w-full flex place-content-center">
-                                <p className="capitalize font-serif font-bold text-2xl text-center shadow-2xl text-white mt-10">SUMATHI OK</p>
-                            </div>
-                            <div className="absolute w-full flex place-content-center mt-20">
-                                <p className="font-sans text-center w-4/5 text-white mt-5">DERMATOLOGIST</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="relative group w-full h-80 overflow-hidden bg-black m-auto mt-4">
-                        <img className="object-cover w-full h-full transform duration-700 backdrop-opacity-100"
-                            src='https://img.freepik.com/premium-photo/medical-concept-indian-beautiful-female-doctor-white-coat-with-stethoscope-waist-up-medical-student-woman-hospital-worker-looking-camera-smiling-studio-blue-background_185696-621.jpg' />
-                        <div className="absolute w-full h-full shadow-2xl opacity-20 transform duration-500 inset-y-full group-hover:-inset-y-0"></div>
-                        <div className="absolute bg-gradient-to-t from-black w-full h-full transform duration-500 inset-y-3/4 group-hover:-inset-y-0">
-                            <div className="absolute w-full flex place-content-center">
-                                <p className="capitalize font-serif font-bold text-2xl text-center shadow-2xl text-white mt-10">SUSHEELA PK</p>
-                            </div>
-                            <div className="absolute w-full flex place-content-center mt-20">
-                                <p className="font-sans text-center w-4/5 text-white mt-5">DENTIST</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="relative group w-full h-80 overflow-hidden bg-black m-auto mt-4">
-                        <img className="object-cover w-full h-full transform duration-700 backdrop-opacity-100"
-                            src='https://img.freepik.com/free-photo/pleased-young-female-doctor-wearing-medical-robe-stethoscope-around-neck-standing-with-closed-posture_409827-254.jpg' />
-                        <div className="absolute w-full h-full shadow-2xl opacity-20 transform duration-500 inset-y-full group-hover:-inset-y-0"></div>
-                        <div className="absolute bg-gradient-to-t from-black w-full h-full transform duration-500 inset-y-3/4 group-hover:-inset-y-0">
-                            <div className="absolute w-full flex place-content-center">
-                                <p className="capitalize font-serif font-bold text-2xl text-center shadow-2xl text-white mt-10">AMMU KUTTY</p>
-                            </div>
-                            <div className="absolute w-full flex place-content-center mt-20">
-                                <p className="font-sans text-center w-4/5 text-white mt-5">GYNAGOLOGIST</p>
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>
             </div>
 

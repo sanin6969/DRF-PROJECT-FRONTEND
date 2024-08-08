@@ -9,7 +9,7 @@ function Home() {
                 <div className="w-full text-center mb-4">
                     <h1 className="text-xl font-bold text-gray-800 md:text-6xl">DOCTORS HUB</h1>
                 </div>
-                {user?null:<div className="w-full flex justify-center items-center space-x-4 mb-3">
+                {/* {user?null:<div className="w-full flex justify-center items-center space-x-4 mb-3">
                     <NavLink to="signin">
                     <button className="text-3xl m-2 font-bold text-gray-950 md:text-md lg:text-md p-3 rounded-lg hover:text-gray-400 ">
                         Sign In
@@ -20,7 +20,20 @@ function Home() {
                         Sign Up
                     </button>
                     </NavLink>
-                </div>}
+                </div>} */}
+                <div className="w-full flex justify-center items-center space-x-4 mb-3">
+                    <NavLink to="signin">
+                    <button className="text-3xl m-2 font-bold text-gray-950 md:text-md lg:text-md p-3 rounded-lg hover:text-gray-400 ">
+                        Sign In
+                    </button>
+                    </NavLink>
+                    <NavLink to="signup">
+                    <button className="text-3xl m-2 font-bold text-gray-400 md:text-md lg:text-md  p-3 rounded-lg hover:text-gray-950 ">
+                        Sign Up
+                    </button>
+                    </NavLink>
+                </div>
+                
                 
 
                 <div className="relative flex bg-clip-border rounded-xl bg-gray-950  bg-opacity-65 text-gray-300 shadow-md w-full max-w-5xl flex-row mb-3">

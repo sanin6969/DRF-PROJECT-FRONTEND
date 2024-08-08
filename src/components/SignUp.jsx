@@ -29,6 +29,7 @@ function SignUp() {
 
         } catch (error) {
             console.log(error);
+            
             const errorMessage = error.response?.data?.message?.email?.[0]
                 || error.response?.data?.message?.username?.[0]
                 || error.response?.data?.message?.non_field_errors?.[0]
