@@ -24,11 +24,11 @@ function Signin() {
                             <form className="space-y-4 md:space-y-6" action="#">
                                 <div>
                                     <input
-                                        type="text"
-                                        name="username"
-                                        id="username"
+                                        type="email"
+                                        name="email"
+                                        id="email"
                                         className="bg-gray-50 bg-opacity-70 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-slate-900 dark:bg-opacity-35 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        placeholder="Username"
+                                        placeholder="Email"
                                         required
                                     />
                                 </div>
@@ -46,7 +46,7 @@ function Signin() {
                                 <div className="flex items-center justify-between">
                                     <p className="font-semibold text-black">Not a user
                                     <NavLink to="/signup">
-                                        <a href="" className="hover:text-gray-500"> Sign Up?</a>
+                                        <span  className="hover:text-gray-500"> Sign Up?</span>
                                     </NavLink>
                                 </p>
                                 </div>
