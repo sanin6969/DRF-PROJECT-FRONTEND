@@ -2,6 +2,7 @@ import { createContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from 'react-router-dom';
+import axios from "axios";
 const AuthContext = createContext()
 
 export default AuthContext
@@ -12,6 +13,7 @@ export const AuthProvider = ({ children }) => {
     
     let [user, setUser] = useState(() => localStorage.getItem('authTokens') ? jwtDecode(localStorage.getItem('authTokens')) : null)
     let [loading,setLoading]=useState(true)
+    
     const navigate = useNavigate()
     let LoginUser = async (e) => {
         e.preventDefault()
@@ -100,11 +102,18 @@ export const AuthProvider = ({ children }) => {
         return ()=>clearInterval(interval)
     },[authTokens,loading])
 
+
+
+
+
+    let [run,setRun]=useState()
+    //  setRun=DoctorProfilesViews()
     let contextData = {
         SignOut: SignOut,
         user: user,
         LoginUser: LoginUser,
-        authTokens:authTokens
+        authTokens:authTokens,
+        run:run
     }
 
     return (

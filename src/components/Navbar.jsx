@@ -43,11 +43,6 @@ export default function Navbar() {
                                 {user? <MenuButton className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none">
                                     <span className="absolute -inset-1.5" />
                                     <span className="sr-only">Open user menu</span>
-                                    <img
-                                        alt="User avatar"
-                                        src="https://img.freepik.com/free-photo/annoyed-young-female-doctor-medical-robe-with-stethoscope-puts-hand-shoulder-looks-camera-isolated-white-background-with-copy-space_141793-34238.jpg?t=st=1722674661~exp=1722678261~hmac=0fd62b66f270cb3b0dff5dbd409a646edbe96c3a04045f7d2e15b90b6aa632b8&w=740"
-                                        className="h-8 w-8 rounded-full"
-                                    />
                                 </MenuButton>:null}
                                 
                             </div>
