@@ -18,7 +18,8 @@ function HomepageView() {
             });
             console.log('doctorview', response.data);
             if (response.status === 200) {
-                setDoctor(response.data.doctors);
+                const verifiedDoctors = response.data.doctors.filter(doctorData => doctorData.is_verified);
+                setDoctor(verifiedDoctors);
             }
         } catch (error) {
             toast.error(error);

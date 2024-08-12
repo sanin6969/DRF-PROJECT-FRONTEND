@@ -1,5 +1,5 @@
 import { Disclosure, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from "react-toastify";
 import AuthContext from '../context/AuthContext';
 import { useContext } from 'react';
@@ -13,6 +13,7 @@ function classNames(...classes) {
 }
 
 export default function Navbar() {
+    const navigate=useNavigate()
     let {user}=useContext(AuthContext)
     let {SignOut}=useContext(AuthContext)
     return (
@@ -39,7 +40,7 @@ export default function Navbar() {
                     <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                         <Menu as="div" className="relative ml-3">
                             <div className="flex items-center space-x-3">
-                                <span className="text-white text-sm font-medium">{user? user.username: 'Guest'}</span>
+                                <span className="text-white text-sm font-medium">{user ? user.username.toUpperCase() : 'Guest'}</span>
                                 {user? <MenuButton className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none">
                                     <span className="absolute -inset-1.5" />
                                     <span className="sr-only">Open user menu</span>
@@ -52,11 +53,11 @@ export default function Navbar() {
                                 className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-gray-800 py-1 shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
                             >
                                 <MenuItem>
-                                <NavLink to="/profile">
-                                    <button href="#" className="block px-4 py-2 text-sm text-gray-200 data-[focus]:bg-gray-600">
+                                
+                                    <button onClick={() => navigate(`/profile`)}  className="block px-4 py-2 text-sm text-gray-200 data-[focus]:bg-gray-600">
                                         Your Profile
                                     </button>
-                                </NavLink>
+                                
                                 </MenuItem>
                                 <MenuItem>
                                     <button onClick={SignOut} className="block px-4 py-2 text-sm text-gray-200 data-[focus]:bg-gray-600">
