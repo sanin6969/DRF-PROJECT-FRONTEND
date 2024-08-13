@@ -13,13 +13,14 @@ export const AuthProvider = ({ children }) => {
     
     let [user, setUser] = useState(() => localStorage.getItem('authTokens') ? jwtDecode(localStorage.getItem('authTokens')) : null)
     let [loading,setLoading]=useState(true)
+    let [username,setUsername]=useState(null)
     
     const navigate = useNavigate()
     let LoginUser = async (e) => {
         e.preventDefault()
-        console.log('form submitted');
-        console.log('email', e.target.email.value);
-        console.log('password', e.target.password.value);
+        // console.log('form submitted');
+        // console.log('email', e.target.email.value);
+        // console.log('password', e.target.password.value);
 
 
         let response = await fetch('http://127.0.0.1:8000/api/token/', {
@@ -31,9 +32,9 @@ export const AuthProvider = ({ children }) => {
         })
 
         let data = await response.json()
-        console.log('data', data);
-        console.log('data detail', data.detail);
-        console.log('response', response);
+        console.log('usernameeee', data);
+        // console.log('data detail', data.detail);
+        // console.log('response', response);
 
         if (response.status === 200) {
             toast.success('Logged in successfully')
@@ -44,7 +45,7 @@ export const AuthProvider = ({ children }) => {
             const decodedUser = jwtDecode(data.access);
             setUser(decodedUser);
             // console.log('decoded data:', jwtDecode(data.access));
-            console.log('user', user);
+            // console.log('user', user);
             localStorage.setItem('authTokens', JSON.stringify(data))
             // navigate('/admin')
             decodedUser.is_admin ? navigate('/admin') : navigate('/');
@@ -67,7 +68,8 @@ export const AuthProvider = ({ children }) => {
     }
     
 
-    // updating accestoken using refresh token
+    // updating accestoken 
+
     let updateRefresh  = async()=>{
         console.log('token updated');
         let response = await fetch('http://127.0.0.1:8000/api/token/refresh/', {
@@ -95,7 +97,7 @@ export const AuthProvider = ({ children }) => {
         
         let interval =setInterval(() => {
             if(authTokens){
-                console.log('update refesreh in useefect worked');
+                // console.log('update refesreh in useefect worked');
                 updateRefresh()
             }
         }, 1000*60*4);

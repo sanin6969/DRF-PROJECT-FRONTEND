@@ -19,6 +19,8 @@ function HomepageView() {
             console.log('doctorview', response.data);
             if (response.status === 200) {
                 const verifiedDoctors = response.data.doctors.filter(doctorData => doctorData.is_verified);
+                console.log(verifiedDoctors,'verified doctors');
+                
                 setDoctor(verifiedDoctors);
             }
         } catch (error) {
@@ -49,7 +51,7 @@ function HomepageView() {
                             <div className="absolute bg-gradient-to-t from-black w-full h-full transform duration-500 inset-y-3/4 group-hover:-inset-y-0">
                                 <div className="absolute w-full flex place-content-center">
                                     <p className="capitalize font-serif font-bold text-2xl text-center shadow-2xl text-white mt-10">
-                                        {doctorData.doctor.username}
+                                        {doctorData.username}
                                     </p>
                                 </div>
                                 <div className="absolute w-full flex place-content-center mt-20">

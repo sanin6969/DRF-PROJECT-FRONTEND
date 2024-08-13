@@ -5,12 +5,39 @@ import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 function Profile() {
-
     const { user ,authTokens} = useContext(AuthContext)
-    console.log(user,'user details');
+    // console.log(user,'user details');
     const id=user.user_id
     let [userDetail,setUserDetail]=useState([])
+    let [doctorDetail,setDoctorDetail]=useState([])
     const navgate=useNavigate()
+
+    let editDoctor =async(e)=>{
+        try{
+            e.preventDefault()
+            const formData = new FormData();
+                formData.append('username', e.target.username.value);
+                formData.append('email', e.target.email.value);
+                formData.append('first_name', e.target.first_name.value);
+                formData.append('last_name', e.target.last_name.value);
+                formData.append('profile_picture', e.target.profile_picture.files[0]);
+                formData.append('department', e.target.department.value);
+                const response = await axios.patch(`http://127.0.0.1:8000/api/doctors/${id}`,formData, {
+                    headers: {
+                        'Authorization': `Bearer ${authTokens.access}`
+                    }
+                })
+                if (response.status === 200) {
+                    setUserDetail(response.data);
+                    navgate('/profile');
+                    toast.success('Doctor profile edited succesfully')
+                    // console.log('profile updated');
+                }
+        }catch(error){
+            toast.error(error)
+        }
+    }
+
     let editUser = async (e) => {
             try {
                 e.preventDefault();
@@ -25,20 +52,24 @@ function Profile() {
                     'Authorization': `Bearer ${authTokens.access}`
                 }
             });
-                console.log(formData);
+                // console.log(formData);
                 
                 if (response.status === 200) {
                     setUserDetail(response.data);
-                    navgate('/profile');
+                    navgate('/');
                     toast.success('profile edited succesfully')
-                    console.log('profile updated');
+                    // console.log('profile updated');
                 }
             } catch (error) {
-                console.log(error);
+                // console.log(error);
                 toast.error(error)
             }
         }    
-
+    // const DoctorView = async ()=>{
+    //     try{
+    //         const 
+    //     }
+    // }
     const UserViews = async () => {
         try {
             const response = await axios.get(`http://127.0.0.1:8000/api/user/${id}`, {
@@ -47,12 +78,12 @@ function Profile() {
                 }
             });
             if (response.status === 200) {
-                console.log('userdata', response.data);
+                // console.log('userdata', response.data);
                 setUserDetail(response.data)
             }
         } catch (error) {
-            console.error(error.response?.data || error.message);
-            toast.error(error.response?.data?.detail || error.message);
+            // console.error(error.response?.data || error.message);
+            toast.error(error.message);
         }
     };
     useEffect(() => {
@@ -62,13 +93,13 @@ function Profile() {
     return (
         <div className="flex flex-col items-center justify-center px-4 py-2 mt-14 lg:py-0">
         <form 
-            onSubmit={editUser}
+            onSubmit={user.is_doctor?editDoctor:editUser}
             className="w-full max-w-lg bg-white bg-opacity-50 backdrop-blur-lg rounded-lg shadow dark:border sm:max-w-md xl:p-0 dark:bg-gray-800 dark:bg-opacity-50 dark:border-gray-700"
         >
             <div className="p-4 flex flex-col items-center">
-                {user?.is_doctor?.is_verified
+                {/* {user?.is_doctor?.is_verified
                     ? null
-                    : <h2 className="text-lg font-bold text-red-500 mb-4 text-center">You are not verified !!</h2>}
+                    : <h2 className="text-lg font-bold text-red-500 mb-4 text-center">You are not verified !!</h2>} */}
                 <div className="w-full flex flex-col justify-center px-4 space-y-4 bg-white bg-opacity-70 dark:bg-gray-800 dark:bg-opacity-70 rounded-lg">
                     <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4 text-center">My Details</h2>
                     <div className="flex space-x-4">
@@ -125,7 +156,7 @@ function Profile() {
                                         name="department"
                                         id="department"
                                         className="bg-gray-50 bg-opacity-70 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2 text-sm dark:bg-slate-900 dark:bg-opacity-35 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        placeholder="DERMATOLOGY"
+                                        placeholder=""
                                     />
                                 </div>
                                 <div className="w-1/2">
