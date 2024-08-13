@@ -18,11 +18,6 @@ export const AuthProvider = ({ children }) => {
     const navigate = useNavigate()
     let LoginUser = async (e) => {
         e.preventDefault()
-        // console.log('form submitted');
-        // console.log('email', e.target.email.value);
-        // console.log('password', e.target.password.value);
-
-
         let response = await fetch('http://127.0.0.1:8000/api/token/', {
             method: 'POST',
             headers: {
@@ -48,7 +43,7 @@ export const AuthProvider = ({ children }) => {
             // console.log('user', user);
             localStorage.setItem('authTokens', JSON.stringify(data))
             // navigate('/admin')
-            decodedUser.is_admin ? navigate('/admin') : navigate('/');
+            navigate(decodedUser.is_admin || decodedUser.is_manager ? '/admin' : '/');
 
         } else {
 

@@ -32,6 +32,7 @@ export default function Navbar() {
                     </div>
                     <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                         <Menu as="div" className="relative ml-3">
+                            {user?
                             <div className="flex items-center space-x-3">
                                 <span className="text-white text-sm font-medium">MENU</span>
                                 {user ? <MenuButton className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none">
@@ -40,6 +41,7 @@ export default function Navbar() {
                                 </MenuButton> : null}
 
                             </div>
+                                :null}
 
                             <MenuItems
                                 transition
