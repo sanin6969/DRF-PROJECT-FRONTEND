@@ -81,8 +81,8 @@ export const AuthProvider = ({ children }) => {
             localStorage.setItem('authTokens', JSON.stringify(data))
         }else{
             console.log('signed out');
-            
             SignOut()
+            
         }
     }
 

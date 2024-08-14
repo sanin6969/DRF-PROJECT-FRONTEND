@@ -63,13 +63,11 @@ function Home() {
                                 Trust in our curated selection of the best doctors for every illness.
                             </li>
                         </ol>
-                        <NavLink to={user?.is_doctor ? "/profile" : (user ? "/Homepage" : "/signin")}>
+                        <NavLink to={user ? "/Homepage" : "/signin"}>
                             <button className="flex items-center gap-2 px-6 py-3 font-sans text-md font-bold text-center text-gray-200 align-middle transition-all rounded-lg select-none disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none hover:bg-gray-900" type="button">
-                                {user?.is_doctor ? "Check Profile" : "Check for Doctors"}
+                            {user?.is_doctor?'Check Your Profile':'check for doctors'}
                             </button>
                         </NavLink>
-
-
                     </div>
                 </div>
             </div>
