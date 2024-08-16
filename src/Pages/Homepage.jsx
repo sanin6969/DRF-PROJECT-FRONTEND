@@ -6,39 +6,15 @@ import { toast } from 'react-toastify';
 function HomepageView() {
     const [doctor, setDoctor] = useState([]);
     let baseUrl = 'http://127.0.0.1:8000/'
-    const { authTokens, user } = useContext(AuthContext)
-    const [doc, setDoc] = useState({
-        doctor: {
-            username: '',
-            email: '',
-            first_name: '',
-            last_name: ''
-        },
-        department: '',
-        profile_picture: '',
-        doctor_proof: ''
-    });
+    const { user, authTokens,GetDoctor,doc,setDoc } = useContext(AuthContext)
 
     const DoctorProfilesViews = async () => {
         try {
             let response;
 
             if (user?.is_doctor) {
-                response = await axios.get('http://127.0.0.1:8000/api/doctorgetedit/', {
-                    headers: {
-                        'Authorization': `Bearer ${authTokens.access}`
-                    }
-                });
-                console.log('doctorview', response.data);
-                console.log('username:==', response.data.doctor.username);
-                console.log('email:==', response.data.doctor.email);
-                console.log('department:==', response.data.department);
-
-                if (response.status === 200) {
-                    setDoc(response.data);
-                    console.log(doc, 'docccccccccccccc');
-
-                }
+                
+                GetDoctor()
 
             } else {
                 response = await axios.get('http://127.0.0.1:8000/api/doctor/', {

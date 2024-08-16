@@ -3,8 +3,9 @@ import React, { useContext, useEffect, useState } from 'react';
 import AuthContext from '../context/AuthContext';
 
 function AdminPage() {
-    const { authTokens } = useContext(AuthContext);
+    const { authTokens, user } = useContext(AuthContext);
     const [users, setUsers] = useState([]);
+    const [admins, setAdmins] = useState([]);
     const [doctors, setDoctors] = useState([]);
     const [selectedImage, setSelectedImage] = useState(null);
     const baseUrl = 'http://127.0.0.1:8000/';
@@ -21,18 +22,45 @@ function AdminPage() {
                     headers: {
                         'Authorization': `Bearer ${authTokens.access}`
                     }
-                })
+                }),
             ]);
 
-            const userList = userResponse.data.filter(user => !user.is_doctor && !user.is_admin && !user.is_manager);
+            const userList = userResponse.data.filter(user => !user.is_doctor && !user.is_admin && !user.allow_admin);
+            const adminList = userResponse.data.filter(user => user.is_admin || user.allow_admin);
+            console.log(adminList);
+
+            setAdmins(adminList)
             setUsers(userList);
             setDoctors(doctorResponse.data.doctors);
         } catch (error) {
             console.log(error);
         }
     };
+    const updateAdminStatus = async (id, isAdmin) => {
+        try {
+            await axios.patch(`http://127.0.0.1:8000/api/admin/${id}/`, {
+                is_admin: isAdmin
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${authTokens.access}`,
+                    'Content-Type': 'application/json'
+                }
+            });
 
-    // Simplified PATCH request
+            setAdmins(prevAdmins =>
+                prevAdmins.map(admin =>
+                    admin.id === id ? { ...admin, is_admin: isAdmin } : admin
+                )
+            );
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const toggleAdminStatus = (id, currentStatus) => {
+        updateAdminStatus(id, !currentStatus);
+    };
+
     const updateDoctorVerification = async (id, isVerified) => {
         try {
             await axios.patch(`http://127.0.0.1:8000/api/doctor/${id}/`, {
@@ -43,7 +71,6 @@ function AdminPage() {
                     'Content-Type': 'application/json'
                 }
             });
-            // Update local state
             setDoctors(prevDoctors =>
                 prevDoctors.map(doctor =>
                     doctor.id === id ? { ...doctor, is_verified: isVerified } : doctor
@@ -54,7 +81,6 @@ function AdminPage() {
         }
     };
 
-    // Toggle the verification status
     const toggleVerification = (id, currentStatus) => {
         updateDoctorVerification(id, !currentStatus);
     };
@@ -84,7 +110,6 @@ function AdminPage() {
                         <div className="w-full text-center">
                             <h1 className="text-xl font-bold text-gray-300 md:text-4xl">DOCTORS</h1>
                         </div>
-                        {/* STARTING OF DOCTOR CARDS */}
                         <div className="flex flex-wrap">
                             {doctors.map((doc) => (
                                 <div key={doc.id} className="flex-shrink-0 w-full sm:w-1/2 lg:w-1/2 p-2">
@@ -125,7 +150,6 @@ function AdminPage() {
                         <div className="w-full text-center">
                             <h1 className="text-xl font-bold text-gray-300 md:text-4xl">USERS</h1>
                         </div>
-                        {/* STARTING OF USER CARDS */}
                         <div className="flex flex-wrap">
                             {users.map((user) => (
                                 <div key={user.id} className="flex-shrink-0 w-full sm:w-1/2 lg:w-1/2 p-2">
@@ -145,9 +169,45 @@ function AdminPage() {
                         </div>
                     </div>
                 </div>
+
+                {/* NEW CATEGORY SECTION */}
+                <div className="w-full p-2">
+                    <div className="bg-gray-900 rounded-2xl bg-opacity-45 backdrop-blur-sm shadow">
+                        <div className="w-full text-center">
+                            <h1 className="text-xl font-bold text-gray-300 md:text-4xl">ADMINS</h1>
+                        </div>
+                        <div className="flex flex-wrap">
+                            {admins.map((item) => (
+                                <div key={item.id} className="flex-shrink-0 w-full sm:w-1/2 lg:w-1/4 p-2">
+                                    <div className="bg-gray-800 rounded-lg p-4">
+                                        <div className="flex flex-col items-center">
+                                            <img className="w-24 h-20 mb-2 rounded-full shadow-md" src="https://img.freepik.com/premium-vector/user-profile-icon-flat-style-member-avatar-vector-illustration-isolated-background-human-permission-sign-business-concept_157943-15752.jpg" />
+                                            <h5 className="mb-1 text-md font-medium text-gray-900 dark:text-white">{item.username}</h5>
+                                            <span className="text-xs text-gray-500 dark:text-gray-400">{item.email}</span>
+                                            <div className="flex mt-2">
+                                                {item.allow_admin && (
+                                                    <>
+                                                        <input
+                                                            type="checkbox"
+                                                            checked={item.is_admin}
+                                                            onChange={() => toggleAdminStatus(item.id, item.is_admin)}
+                                                            className="mr-2"
+                                                        />
+                                                        <label className='text-white font-semibold'>Verify?</label>
+                                                    </>
+                                                )}
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            {/* full imge */}
             {selectedImage && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
                     <div className="relative">

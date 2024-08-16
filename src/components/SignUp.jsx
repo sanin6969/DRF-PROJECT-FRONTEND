@@ -6,6 +6,23 @@ import "react-toastify/dist/ReactToastify.css";
 
 function SignUp() {
     const [isDoctor, setIsDoctor] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false);
+
+    const handleDoctorChange = () => {
+        if (!isDoctor) {
+            setIsAdmin(false);  // Deselect the admin checkbox if doctor is selected
+        }
+        setIsDoctor(prevState => !prevState);
+    };
+
+    const handleAdminChange = () => {
+        if (!isAdmin) {
+            setIsDoctor(false);  // Deselect the doctor checkbox if admin is selected
+        }
+        setIsAdmin(prevState => !prevState);
+    };
+
+
     const navigate = useNavigate();
 
     const UserRegister = async (e) => {
@@ -16,35 +33,37 @@ function SignUp() {
         formData.append('password', e.target.password.value);
         formData.append('confirm_password', e.target.password2.value);
         formData.append('is_doctor', isDoctor);
-
+    
         if (isDoctor) {
             const doctor_proof = e.target.doctor_proof.files[0];
             const profile_picture = e.target.profile_picture.files[0];
             const department = e.target.department.value;
-
+    
             if (!doctor_proof || !profile_picture || !department) {
                 toast.error("Please upload proof, profile picture, and department.");
                 return;
             }
-
+    
             formData.append('doctor_proof', doctor_proof);
             formData.append('profile_picture', profile_picture);
             formData.append('department', department);
         }
-
+    
+        if (isAdmin) {
+            formData.append('allow_admin', true);
+        }
+    
         try {
             const response = await axios.post('http://127.0.0.1:8000/api/register/', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-
+    
             toast.success('Registration successful');
-            alert('registration success')
+            alert('registration successfull')
             navigate('/signin');
-            console.log(response.data, 'data');
-            console.log(response.status, 'response status');
-
+    
         } catch (error) {
             console.log(error);
             const errorMessage = error.response?.data?.message?.email?.[0]
@@ -55,9 +74,9 @@ function SignUp() {
         }
     };
 
-    const handleCheckboxChange = () => {
-        setIsDoctor(prevState => !prevState);
-    };
+    // const handleCheckboxChange = () => {
+    //     setIsDoctor(prevState => !prevState);
+    // };
 
     return (
         <>
@@ -123,11 +142,6 @@ function SignUp() {
                             </div>
 
                             <div className="flex items-center justify-between">
-                                <p className="font-semibold text-black">Already a user
-                                    <NavLink to="/signin">
-                                        <span className="hover:text-gray-400"> Sign In?</span>
-                                    </NavLink>
-                                </p>
                                 <div className="flex items-start">
                                     <div className="flex items-center h-5">
                                         <input
@@ -136,18 +150,35 @@ function SignUp() {
                                             type="checkbox"
                                             className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
                                             checked={isDoctor}
-                                            onChange={handleCheckboxChange}
+                                            onChange={handleDoctorChange}
                                         />
                                     </div>
                                     <div className="ml-3 mr-2 text-sm">
-                                        <label
-                                            htmlFor="doctor"
-                                            className="text-gray-500 dark:text-gray-300">
-                                            Are You a Doctor?
+                                        <label htmlFor="doctor" className="text-gray-500 dark:text-gray-300">
+                                            Create Doctor
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div className="flex items-start">
+                                    <div className="flex items-center h-5">
+                                        <input
+                                            id="createadmin"
+                                            name="createadmin"
+                                            type="checkbox"
+                                            className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
+                                            checked={isAdmin}
+                                            onChange={handleAdminChange}
+                                        />
+                                    </div>
+                                    <div className="ml-3 text-sm">
+                                        <label htmlFor="createadmin" className="text-gray-500 dark:text-gray-300">
+                                            Create Admin
                                         </label>
                                     </div>
                                 </div>
                             </div>
+
 
                             {isDoctor && (
                                 <>

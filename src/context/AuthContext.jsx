@@ -8,14 +8,32 @@ const AuthContext = createContext()
 export default AuthContext
 export const AuthProvider = ({ children }) => {
 
-    let [authTokens, setAuthTokens] = useState(() => localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null)
-    // console.log('authtokens',authTokens);
-    
+    let [authTokens, setAuthTokens] = useState(() => localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null)    
     let [user, setUser] = useState(() => localStorage.getItem('authTokens') ? jwtDecode(localStorage.getItem('authTokens')) : null)
     let [loading,setLoading]=useState(true)
     let [username,setUsername]=useState(null)
     
     const navigate = useNavigate()
+    const [doc, setDoc] = useState({doctor: {username: '',email: '',first_name: '',last_name: ''},department: '',profile_picture: '',doctor_proof: ''});
+// get doctor
+    const GetDoctor = async (e)=>{
+        try {
+            let response = await axios.get('http://127.0.0.1:8000/api/doctorgetedit/', {
+                headers: {
+                    'Authorization': `Bearer ${authTokens.access}`
+                }
+            });
+            console.log('doctorview', response.data);
+
+            if (response.status === 200) {
+                setDoc(response.data);
+            }
+        } catch (error) {
+            toast.error(error.message);
+        }
+    }
+
+
     let LoginUser = async (e) => {
         e.preventDefault()
         let response = await fetch('http://127.0.0.1:8000/api/token/', {
@@ -34,7 +52,7 @@ export const AuthProvider = ({ children }) => {
         if (response.status === 200) {
             toast.success('Logged in successfully')
             setAuthTokens(data)
-            console.log('authtokens',authTokens);
+            // console.log('authtokens',authTokens);
             
             // console.log('tokens', authTokens);
             const decodedUser = jwtDecode(data.access);
@@ -103,14 +121,14 @@ export const AuthProvider = ({ children }) => {
 
 
 
-    let [run,setRun]=useState()
-    //  setRun=DoctorProfilesViews()
     let contextData = {
         SignOut: SignOut,
         user: user,
         LoginUser: LoginUser,
         authTokens:authTokens,
-        run:run
+        GetDoctor:GetDoctor,
+        doc:doc,
+        setDoc:setDoc
     }
 
     return (
