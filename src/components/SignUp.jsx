@@ -10,14 +10,14 @@ function SignUp() {
 
     const handleDoctorChange = () => {
         if (!isDoctor) {
-            setIsAdmin(false);  // Deselect the admin checkbox if doctor is selected
+            setIsAdmin(false);  
         }
         setIsDoctor(prevState => !prevState);
     };
 
     const handleAdminChange = () => {
         if (!isAdmin) {
-            setIsDoctor(false);  // Deselect the doctor checkbox if admin is selected
+            setIsDoctor(false);  
         }
         setIsAdmin(prevState => !prevState);
     };
@@ -74,9 +74,6 @@ function SignUp() {
         }
     };
 
-    // const handleCheckboxChange = () => {
-    //     setIsDoctor(prevState => !prevState);
-    // };
 
     return (
         <>
