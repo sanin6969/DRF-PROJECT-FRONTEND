@@ -149,7 +149,9 @@ function SignUp() {
                                     />
                                 </div>
                             </div>
-
+                            <div>
+                                <p onClick={()=>navigate('/verifyemail')} className=" cursor-pointer text-center hover:text-gray-300 text-white font-medium">Have Verification Code?</p>
+                            </div>
                             <div className="flex items-center justify-between">
                                 <div className="flex items-start">
                                     <div className="flex items-center h-5">

@@ -19,7 +19,7 @@ function Verify_Email() {
             navigate('/signin');
         } catch (error) {
             toast.error(error.response?.data?.message);
-            
+
         }
     }
 
@@ -53,6 +53,15 @@ function Verify_Email() {
                                     required
                                 />
                             </div>
+                            <div className='flex justify-around'>
+                                <p onClick={() => navigate('/signin')} className="cursor-pointer hover:text-gray-300 text-white font-medium">
+                                    Sign In
+                                </p>
+                                <p onClick={() => navigate('/signup')} className="cursor-pointer hover:text-gray-300 text-white font-medium">
+                                    Sign Up
+                                </p>
+                            </div>
+
                             <div className="flex justify-center mt-4">
                                 <button
                                     type="submit"

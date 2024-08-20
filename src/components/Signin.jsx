@@ -52,13 +52,9 @@ function Signin() {
                                         required
                                     />
                                 </div>
-                                <div className="flex items-center justify-between">
-                                    <p className="font-semibold text-black">Not a user
-                                    <NavLink to="/signup">
-                                        <span  className="hover:text-gray-500"> Sign Up?</span>
-                                    </NavLink>
-                                </p>
-                                </div>
+                                <div>
+                                <p onClick={()=>navigate('/verifyemail')} className=" cursor-pointer text-center hover:text-gray-300 text-white font-medium">Have Verification Code?</p>
+                            </div>
                                 <div className="flex justify-center mt-4">
                                     {/* <NavLink to="/admin"> */}
                                     <button
