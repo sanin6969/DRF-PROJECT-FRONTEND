@@ -8,7 +8,6 @@ function Profile() {
     const { user, authTokens,GetDoctor,doc,setDoc } = useContext(AuthContext)
     let [userDetail, setUserDetail] = useState([])
     const navgate = useNavigate()
-    const [docdata, setDocData] = useState({doctor: {username: '',email: '',first_name: '',last_name: ''},department: ''});
 
     let editDoctor = async (e) => {
         try {
@@ -30,11 +29,18 @@ function Profile() {
                 setDoc(response.data);
                 console.log('updated');
                 toast.success('Profile updated Successfully')
-                navgate('/profile')
+                navgate('/homepage')
             }
 
         } catch (error) {
-            toast.error(error)
+            // toast.error(error)
+            console.log(error);
+            
+            const errorMessage = error.response?.data?.email
+                || error.response?.data?.username
+            toast.error(errorMessage)
+            console.log(errorMessage);
+            
         }
     }
 
@@ -54,10 +60,20 @@ function Profile() {
             if (response.status === 200) {
                 setUserDetail(response.data);
                 toast.success('profile edited succesfully')
+                console.log('profile edited');
+                
+                // alert('profile edited')
                 navgate('/homepage');
             }
         } catch (error) {
-            toast.error(error)
+            console.log(error,'erorrrrrrrrrrrrr');
+            // alert('username or email already taken please choose another')
+            const errorMessage = error.response?.data?.email?.[0]
+                || error.response?.data?.username?.[0]
+            toast.error(errorMessage)
+            alert(errorMessage)
+            console.log(errorMessage);
+            
         }
     }
     const UserViews = async () => {
@@ -84,8 +100,13 @@ function Profile() {
     }
 
     useEffect(() => {
-        UserViews();
-    }, []);
+        if (user.is_admin) {
+            navgate('/admin')
+            
+        }else{
+            UserViews();
+        }
+    }, [user,navgate]);
 
     return (
         <div className="flex flex-col items-center justify-center px-4 py-2 mt-14 lg:py-0">

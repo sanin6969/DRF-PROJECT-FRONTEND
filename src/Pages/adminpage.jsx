@@ -1,8 +1,11 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 import AuthContext from '../context/AuthContext';
+import { useNavigate } from 'react-router';
+import { toast } from 'react-toastify';
 
 function AdminPage() {
+    const navigate = useNavigate()
     const { authTokens, user } = useContext(AuthContext);
     const [users, setUsers] = useState([]);
     const [admins, setAdmins] = useState([]);
@@ -11,6 +14,7 @@ function AdminPage() {
     const baseUrl = 'http://127.0.0.1:8000/';
 
     const fetchData = async () => {
+
         try {
             const [userResponse, doctorResponse] = await Promise.all([
                 axios.get('http://127.0.0.1:8000/api/admin/', {
@@ -27,7 +31,7 @@ function AdminPage() {
 
             const userList = userResponse.data.filter(user => !user.is_doctor && !user.is_admin && !user.allow_admin);
             const adminList = userResponse.data.filter(user => user.is_admin || user.allow_admin);
-            console.log(adminList);
+            // console.log(adminList);
 
             setAdmins(adminList)
             setUsers(userList);
@@ -36,6 +40,7 @@ function AdminPage() {
             console.log(error);
         }
     };
+    // admin verification
     const updateAdminStatus = async (id, isAdmin) => {
         try {
             await axios.patch(`http://127.0.0.1:8000/api/admin/${id}/`, {
@@ -61,6 +66,65 @@ function AdminPage() {
         updateAdminStatus(id, !currentStatus);
     };
 
+    const blockUser = async (id) => {
+        console.log(id, 'emailllllllllllllllll');
+        try {
+            await axios.patch(`http://127.0.0.1:8000/api/admin/${id}/`, {
+                action: 'block'
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${authTokens.access}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            setUsers(prevUsers =>
+                prevUsers.map(user =>
+                    user.id === id ? { ...user, is_active: false } : user
+                )
+            );
+
+            setDoctors(prevDoctors =>
+            prevDoctors.map(doctor =>
+                doctor.doctor.id === id ? { ...doctor, doctor: { ...doctor.doctor, is_active: false } } : doctor
+            )
+        );
+
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const unblockUser = async (id) => {
+        console.log(id, 'emailllllllllllllllll');
+
+        try {
+            await axios.patch(`http://127.0.0.1:8000/api/admin/${id}/`, {
+                action: 'unblock'
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${authTokens.access}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+            setUsers(prevUsers =>
+                prevUsers.map(user =>
+                    user.id === id ? { ...user, is_active: true } : user
+                )
+            );
+            setDoctors(prevDoctors =>
+                prevDoctors.map(doctor =>
+                    doctor.doctor.id === id ? { ...doctor, doctor: { ...doctor.doctor, is_active: true } } : doctor
+                )
+            );
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+
+
+    // Dovtor verification
     const updateDoctorVerification = async (id, isVerified) => {
         try {
             await axios.patch(`http://127.0.0.1:8000/api/doctor/${id}/`, {
@@ -81,6 +145,14 @@ function AdminPage() {
         }
     };
 
+    // TOGGLES 
+    const toggleBlockStatus = (id, isActive) => {
+        if (isActive) {
+            blockUser(id);
+        } else {
+            unblockUser(id);
+        }
+    };
     const toggleVerification = (id, currentStatus) => {
         updateDoctorVerification(id, !currentStatus);
     };
@@ -94,11 +166,16 @@ function AdminPage() {
     };
 
     useEffect(() => {
-        fetchData();
-    }, []);
+        if (!user.is_admin) {
+            navigate('/');
+        } else {
+            fetchData();
+        }
+    }, [user, navigate]);
 
     return (
         <>
+
             <div className="w-full text-center mb-4">
                 <h1 className="text-xl font-bold text-gray-950 md:text-6xl">ADMIN</h1>
             </div>
@@ -111,7 +188,7 @@ function AdminPage() {
                             <h1 className="text-xl font-bold text-gray-300 md:text-4xl">DOCTORS</h1>
                         </div>
                         <div className="flex flex-wrap">
-                            {doctors.map((doc) => (
+                            {doctors?.map((doc) => (
                                 <div key={doc.id} className="flex-shrink-0 w-full sm:w-1/2 lg:w-1/2 p-2">
                                     <div className="bg-gray-800 rounded-lg p-4">
                                         <div className="flex flex-col items-center">
@@ -134,7 +211,27 @@ function AdminPage() {
                                                     onChange={() => toggleVerification(doc.id, doc.is_verified)}
                                                     className="mr-2"
                                                 />
-                                                <button className="py-1 text-xs font-mono px-3 text-gray-100 focus:outline-none bg-slate-600 hover:bg-red-600 hover:text-black rounded-md">BLOCK</button>
+                                                {doc.doctor.is_active ? (
+                                                    <button
+                                                        onClick={() => toggleBlockStatus(doc.doctor.id, doc.doctor.is_active)}
+                                                        className="py-1 text-xs font-mono px-3 text-gray-100 focus:outline-none bg-yellow-700 hover:bg-red-600 hover:text-black rounded-md"
+                                                    >
+                                                        BLOCK
+                                                    </button>
+                                                )
+
+                                                    : (
+                                                        <button
+                                                            onClick={() => toggleBlockStatus(doc.doctor.id, doc.doctor.is_active)}
+                                                            // {...console.log(doc.doctor.id,'iddddddddddd')}
+                                                            
+                                                            className="py-1 text-xs font-mono px-3 text-black focus:outline-none bg-red-600 hover:text-black rounded-md"
+                                                        >
+                                                            UNBLOCK
+                                                        </button>
+
+                                                    )}
+
                                             </div>
                                         </div>
                                     </div>
@@ -160,7 +257,22 @@ function AdminPage() {
                                             <span className="text-xs text-gray-500 dark:text-gray-400">{user.email}</span>
                                             <span className="text-xs text-gray-500 dark:text-gray-400">User</span>
                                             <div className="flex mt-2">
-                                                <button className="py-1 text-xs font-mono px-3 text-gray-100 focus:outline-none bg-slate-600 hover:bg-red-600 hover:text-black rounded-md">BLOCK</button>
+                                            {user.is_active ? (
+                                                <button
+                                                onClick={() => toggleBlockStatus(user.id, user.is_active)}
+                                                className="py-1 text-xs font-mono px-3 text-gray-100 focus:outline-none bg-yellow-700 hover:bg-red-600 hover:text-black rounded-md"
+                                            >
+                                                BLOCK
+                                            </button>
+                                            ) : (
+                                                <button
+                                                    onClick={() => toggleBlockStatus(user.id, user.is_active)}
+                                                    className="py-1 text-xs font-mono px-3 text-black focus:outline-none bg-red-600 hover:text-black rounded-md"
+                                                >
+                                                    UNBLOCK
+                                                </button>
+                                            )}
+                                                
                                             </div>
                                         </div>
                                     </div>

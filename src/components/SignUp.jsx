@@ -1,13 +1,23 @@
-import React, { useState } from "react";
+import React, { useContext, useState,useEffect  } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import AuthContext from "../context/AuthContext";
 
 function SignUp() {
     const [isDoctor, setIsDoctor] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
+    const {user}=useContext(AuthContext)
+    const navigate = useNavigate();
 
+    
+    useEffect(() => {
+        if (user) { 
+            navigate('/');
+        }
+    }, [user, navigate]);
+    
     const handleDoctorChange = () => {
         if (!isDoctor) {
             setIsAdmin(false);  
@@ -23,7 +33,7 @@ function SignUp() {
     };
 
 
-    const navigate = useNavigate();
+
 
     const UserRegister = async (e) => {
         e.preventDefault();
@@ -59,16 +69,18 @@ function SignUp() {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-    
-            toast.success('Registration successful');
-            alert('registration successfull')
-            navigate('/signin');
+            console.log(response);
+            
+            toast.success(response?.data?.message);
+            // alert('registration successfull')
+            navigate('/verifyemail');
     
         } catch (error) {
             console.log(error);
             const errorMessage = error.response?.data?.message?.email?.[0]
                 || error.response?.data?.message?.username?.[0]
                 || error.response?.data?.message?.non_field_errors?.[0]
+                ||error.response?.data?.message?.password?.[0]
                 || "Registration failed";
             toast.error(errorMessage);
         }
@@ -77,7 +89,7 @@ function SignUp() {
 
     return (
         <>
-            <ToastContainer />
+            {/* <ToastContainer /> */}
             <div className="flex flex-col items-center justify-center mt-3 lg:py-0">
                 <div className="w-full max-w-sm bg-white bg-opacity-50 backdrop-blur-lg rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:bg-opacity-50 dark:border-gray-700">
                     <div className="p-2 space-y-2 md:space-y-4 sm:p-8">

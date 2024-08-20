@@ -3,8 +3,10 @@ import AuthContext from '../context/AuthContext';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router';
 function HomepageView() {
     const [doctor, setDoctor] = useState([]);
+    const navgate=useNavigate()
     let baseUrl = 'http://127.0.0.1:8000/'
     const { user, authTokens,GetDoctor,doc,setDoc } = useContext(AuthContext)
 
@@ -40,8 +42,12 @@ function HomepageView() {
 
 
     useEffect(() => {
-        DoctorProfilesViews();
-    }, []);
+        if (user.is_admin) {
+            navgate('/admin')
+        }else{
+            DoctorProfilesViews();
+        }
+    }, [user,navgate]);
     return (
         <>
             {user?.is_doctor ? (
@@ -99,7 +105,7 @@ function HomepageView() {
                                     <div className="absolute w-full h-full shadow-2xl opacity-20 transform duration-500 inset-y-full group-hover:-inset-y-0"></div>
                                     <div className="absolute bg-gradient-to-t from-black w-full h-full transform duration-500 inset-y-3/4 group-hover:-inset-y-0">
                                         <div className="absolute w-full flex place-content-center">
-                                            <p className="capitalize font-serif font-bold text-2xl text-center shadow-2xl text-white mt-10">
+                                            <p className="capitalize font-serif font-bold text-2xl text-center shadow-2xl text-black mt-10">
                                                 {doctorData.doctor.username}
                                             </p>
                                         </div>

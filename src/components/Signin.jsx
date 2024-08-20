@@ -1,9 +1,15 @@
 import React from 'react'
-import { useContext } from 'react';
+import { useContext ,useEffect} from 'react';
 import { NavLink, useNavigate } from "react-router-dom";
 import AuthContext from '../context/AuthContext';
 function Signin() {
-    let{LoginUser}=useContext(AuthContext)
+    const navigate=useNavigate()
+    let{LoginUser,user}=useContext(AuthContext)
+    useEffect(() => {
+        if (user) { 
+            navigate('/');
+        }
+    }, [user, navigate]);
     return (
         <>
 
