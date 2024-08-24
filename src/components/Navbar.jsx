@@ -3,14 +3,11 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from "react-toastify";
 import AuthContext from '../context/AuthContext';
 import { useContext } from 'react';
-// const navigation = [
-//     { name: 'Welcome User', href: '#', current: false },
 
-// ]
 
-function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
-}
+// function classNames(...classes) {
+//     return classes.filter(Boolean).join(' ')
+// }
 
 export default function Navbar() {
     const navigate = useNavigate()
