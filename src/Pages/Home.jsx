@@ -20,7 +20,7 @@ useEffect(()=>{
                 {user?null:<div className="w-full flex justify-center items-center space-x-4 mb-3">
                     <NavLink to="signin">
                     <button className="text-3xl m-2 font-bold text-gray-950 md:text-md lg:text-md p-3 rounded-lg hover:text-gray-400 ">
-                        Log In
+                        Sign In
                     </button>
                     </NavLink>
                     <NavLink to="signup">
